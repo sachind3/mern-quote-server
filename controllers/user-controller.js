@@ -58,6 +58,7 @@ const userController = {
     const isMatch = await bcrypt.compareSync(password, user.password);
     if (!isMatch) throw new AppError("Invalid credentials.", 400);
     const refresh_token = createRefreshToken({ id: user._id });
+    console.log(refresh_token);
     res.cookie("refresh_token", refresh_token, {
       httpOnly: true,
       sameSite: "None",
