@@ -62,6 +62,8 @@ const userController = {
   }),
   getAccessToken: asyncHandler((req, res) => {
     const rf_token = req.cookies.refresh_token;
+    console.log(rf_token);
+    console.log(process.env.REFRESH_TOKEN_SECRET);
     if (!rf_token) throw new AppError("Please login now!", 400);
     jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
       if (err) throw new AppError("Please login now!", 400);
