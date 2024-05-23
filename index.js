@@ -15,6 +15,7 @@ app.use(
         ? process.env.CLIENT_URI_DEV
         : process.env.CLIENT_URI_PROD,
     credentials: true,
+    optionsSuccessStatus: 204,
   })
 );
 app.use(cookieParser());
