@@ -11,6 +11,11 @@ const sendEmail = require("./sendEmail");
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 
+const CLIENT_URI =
+  process.env.ENVIRONMENT === "DEVELOPMENT"
+    ? process.env.CLIENT_URI_DEV
+    : process.env.CLIENT_URI_PROD;
+
 const userController = {
   register: asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
@@ -83,7 +88,7 @@ const userController = {
     const user = await User.findOne({ email });
     if (!user) throw new AppError("User not found, please register.", 404);
     const access_token = createAccessToken({ id: user._id });
-    const url = `${process.env.CLIENT_URI}/user/reset/${access_token}`;
+    const url = `${CLIENT_URI}/user/reset/${access_token}`;
     sendEmail(email, url, "Reset your password");
     res
       .status(200)
