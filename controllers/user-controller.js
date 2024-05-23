@@ -60,7 +60,7 @@ const userController = {
     const refresh_token = createRefreshToken({ id: user._id });
     res.cookie("refresh_token", refresh_token, {
       httpOnly: true,
-      sameSite: "Strict",
+      sameSite: "None",
       secure: true,
       path: "/user/refresh_token",
       maxAge: 7 * 24 * 60 * 60 * 1000,
