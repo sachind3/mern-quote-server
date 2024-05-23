@@ -26,5 +26,6 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 app.use(errorHandler);
 app.listen(PORT, () => {
+  console.log(process.env.ENVIRONMENT);
   console.log(`listening on port ${PORT}`);
 });
