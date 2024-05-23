@@ -2,11 +2,17 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
 const connectDB = require("./config");
 const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
 app.set("trust proxy", 1);
+if (process.env.NODE_ENV === "DEVELOPMENT") {
+  app.use(morgan("dev")); // Use 'dev' logging format in development
+} else {
+  app.use(morgan("combined")); // Use 'combined' logging format in production
+}
 app.use(express.json());
 app.use(
   cors({
