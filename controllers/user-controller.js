@@ -28,8 +28,9 @@ const userController = {
     const passwordHash = await bcrypt.hashSync(password, 12);
     const newUser = { name, email, password: passwordHash };
     const activation_token = createActivationToken(newUser);
-    const url = `${process.env.CLIENT_URI}/user/activate/${activation_token}`;
-    sendEmail(email, url, "Please verify your email address");
+    const url = `${CLIENT_URI}/user/activate/${activation_token}`;
+    console.log(url);
+    //sendEmail(email, url, "Please verify your email address");
     res.status(201).json({
       message: "Register success! Please activate your email to start.",
     });
