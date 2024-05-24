@@ -61,8 +61,8 @@ const userController = {
     console.log(refresh_token);
     res.cookie("refresh_token", refresh_token, {
       httpOnly: true,
-      SameSite: "None",
-      Secure: true,
+      sameSite: "lax",
+      secure: true,
       path: "/user/refresh_token",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
