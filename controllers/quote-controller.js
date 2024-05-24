@@ -126,6 +126,38 @@ const quoteController = {
       result: populatedQuote,
     });
   }),
+  getAuthorQuotes: asyncHandler(async (req, res) => {
+    const authorId = req.params.id;
+    checkMongoId(authorId);
+    const author = await User.findById(authorId).select(["name", "_id"]);
+    if (!author) throw new AppError("Author not found", 404);
+    const quotes = await Quote.find({ author: authorId })
+      .populate({ path: "author", select: ["name"] })
+      .select("+_createdAt");
+    res.status(200).json({
+      message: "Quote fetched successfully",
+      result: { author, quotes },
+    });
+  }),
+  searchQuotes: asyncHandler(async (req, res) => {
+    const { query } = req.query;
+    if (!query || query.length < 3)
+      throw new AppError(
+        "Query string must be at least 3 characters long",
+        404
+      );
+    const quotes = await Quote.find({
+      $or: [
+        { title: { $regex: query, $options: "i" } }, // Case-insensitive search
+        { description: { $regex: query, $options: "i" } },
+      ],
+    })
+      .populate({ path: "author", select: ["name"] })
+      .select("+_createdAt");
+    res
+      .status(200)
+      .json({ message: "Quote fetched successfully", result: quotes });
+  }),
 };
 
 module.exports = quoteController;
