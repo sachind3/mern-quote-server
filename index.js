@@ -9,9 +9,9 @@ const errorHandler = require("./middlewares/errorHandler");
 const app = express();
 app.set("trust proxy", 1);
 if (process.env.NODE_ENV === "DEVELOPMENT") {
-  app.use(morgan("dev")); // Use 'dev' logging format in development
+  app.use(morgan("dev"));
 } else {
-  app.use(morgan("combined")); // Use 'combined' logging format in production
+  app.use(morgan("combined"));
 }
 app.use(express.json());
 app.use(
