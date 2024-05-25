@@ -8,6 +8,7 @@ const utilityController = {
   likeQuote: asyncHandler(async (req, res) => {
     const quoteId = req.params.id;
     const userId = req.user.id;
+
     checkMongoId(quoteId);
     checkMongoId(userId);
 
@@ -36,9 +37,11 @@ const utilityController = {
       result: quote,
     });
   }),
+
   saveQuote: asyncHandler(async (req, res) => {
     const quoteId = req.params.id;
     const userId = req.user.id;
+
     checkMongoId(quoteId);
     checkMongoId(userId);
 
@@ -66,27 +69,34 @@ const utilityController = {
       result: quote,
     });
   }),
+
   getLikedQuotes: asyncHandler(async (req, res) => {
     const userId = req.user.id;
+
     checkMongoId(userId);
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).lean();
     if (!user) throw new AppError("User not found", 404);
-    const userLiks = user.likedQuotes;
+
     res.status(200).json({
       message: "Liked quotes retrieved successfully",
-      result: userLiks,
+      result: user.likedQuotes,
     });
   }),
+
   getSavedQuotes: asyncHandler(async (req, res) => {
     const userId = req.user.id;
+
     checkMongoId(userId);
 
-    const user = await User.findById(userId).populate({
-      path: "savedQuotes",
-      populate: { path: "author", select: "name" },
-      select: "_id title description author _createdAt likes",
-    });
+    const user = await User.findById(userId)
+      .populate({
+        path: "savedQuotes",
+        populate: { path: "author", select: "name" },
+        select: "_id title description author _createdAt likes",
+      })
+      .lean();
+
     if (!user) throw new AppError("User not found", 404);
 
     res.status(200).json({
