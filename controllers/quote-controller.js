@@ -35,7 +35,7 @@ const quoteController = {
   }),
   getAllQuotes: asyncHandler(async (req, res) => {
     const page = req.query.page || 1; // Default to page 1 if not provided
-    const limit = 30; // Number of quotes per page
+    const limit = 100; // Number of quotes per page
     const skip = (page - 1) * limit;
     const quotes = await Quote.find()
       .populate({ path: "author", select: ["name"] })
