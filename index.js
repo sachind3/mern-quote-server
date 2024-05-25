@@ -28,6 +28,7 @@ app.use(cookieParser());
 
 app.use("/user", require("./routes/userRoute"));
 app.use("/quote", require("./routes/quoteRoute"));
+app.use("/utility", require("./routes/utilityRoute"));
 
 const PORT = process.env.PORT || 5000;
 

@@ -24,6 +24,8 @@ const userSchema = new mongoose.Schema(
       default: 0, // 0 = user, 1 = admin
     },
     quotes: [{ type: mongoose.Types.ObjectId, ref: "Quote", required: true }],
+    likedQuotes: [{ type: mongoose.Types.ObjectId, ref: "Quote" }],
+    savedQuotes: [{ type: mongoose.Types.ObjectId, ref: "Quote" }],
     _createdAt: { type: Date, select: false },
     _updatedAt: { type: Date, select: false },
   },

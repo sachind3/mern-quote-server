@@ -15,6 +15,7 @@ const quoteSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    likes: [{ type: mongoose.Types.ObjectId, ref: "User" }],
     _createdAt: { type: Date, select: false },
     _updatedAt: { type: Date, select: false },
   },
